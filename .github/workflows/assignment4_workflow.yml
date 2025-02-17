@@ -2,13 +2,17 @@ name: Assignment4
 
 on:
   push:
-    branches:
-      - main
+  #  branches:
+  #    - main
   pull_request:
   merge_group:
   workflow_dispatch:
 
 env:
+  SpringerNatureAPIKey: ${{ secrets.SpringerNatureAPIKey }}
+  AstrophysicsDataSystemAPIKey: ${{ secrets.AstrophysicsDataSystemAPIKey }}
+  IEEEAPIKey: ${{ secrets.IEEEAPIKey }}
+  BiodiversityHeritageApiKey: ${{ secrets.BiodiversityHeritageApiKey}}
   GRADLE_OPTS: -Xmx4g
   JAVA_OPTS: -Xmx4g
   
@@ -18,7 +22,7 @@ concurrency:
   
 jobs:
   tests:
-    name: Unit tests
+    name: Run Unit Tests
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -43,7 +47,7 @@ jobs:
       run: ./gradlew build
 
     - name: Run tests
-      run: xvfb-run --auto-servernum ./gradlew check -x checkstyleJmh -x checkstyleMain -x checkstyleTest -x modernizer
+      run: xvfb-run --auto-servernum ./gradlew check
       env:
           CI: "true"
           
