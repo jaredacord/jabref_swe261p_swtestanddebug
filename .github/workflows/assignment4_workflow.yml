@@ -15,14 +15,14 @@ env:
   BiodiversityHeritageApiKey: ${{ secrets.BiodiversityHeritageApiKey}}
   GRADLE_OPTS: -Xmx4g
   JAVA_OPTS: -Xmx4g
-  
+
 concurrency:
   group: "${{ github.workflow }}-${{ github.head_ref || github.ref }}"
   cancel-in-progress: true
-  
+
 jobs:
   tests:
-    name: Unit tests
+    name: Run Unit Tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source
@@ -43,14 +43,5 @@ jobs:
         run: xvfb-run --auto-servernum ./gradlew check
         env:
           CI: "true"
-      - name: Prepare format failed test results
-        if: failure()
-        uses: awalsh128/cache-apt-pkgs-action@latest
-        with:
-          packages: xml-twig-tools xsltproc
-          version: 1.0
-      - name: Format failed test results
-        if: failure()
-        run: scripts/after-failure.sh
 
 
